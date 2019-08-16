@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+
+<head>
+
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/d3-scale-chromatic@1.4.0/dist/d3-scale-chromatic.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/combine/npm/jquery,npm/lodash,npm/g1"></script>
+
+    <script src="https://d3js.org/d3.v5.js"></script>
+
+    <title>Job Market Dashboard</title>
+</head>
+<body>
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Active</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Disabled</a>
+      </li>
+      <li class="h4" style="color: white; margin-left: 20em;"><a href="#" style="color: white;">Dashboard</a></li>
+    </ul>
+    </div>
+  </nav>
+  <h2 class="display-4">Startup Scene in India</h2>
+    <div class="container-fluid">
+      <div class="row">
+      <div class="col-1">
+        <!-- Card --></div>
+      <div class="col-7">
+          <div class="card border-dark mb-3" style="max-width: 700px;">
+              <div class="card-header"><h2>What are the largest Industries in the startup market? </h2>
+              </div>
+              <div class="card-body text-dark">
+                  <svg width="650" height="650" class="circle_pack"></svg> 
+              </div>
+            </div>
+      </div>
+      <div class="col-4">        <div class="card chart-card">
+
+          <!-- Card content -->
+          <div class="card-body pb-0">
+            <!-- Title -->
+            <h4 class="card-title font-weight-bold">Alie Corporation</h4>
+            <!-- Text -->
+            <p class="card-text mb-4">NYSE: AZHC  •  Oct 16, 1:45PM</p>
+            <div class="d-flex justify-content-between">
+              <p class="display-4 align-self-end">887.32</p>
+              <p class="align-self-end pb-2">887.02 (.03%)</p>
+            </div>
+          </div>
+          <!-- Classic tabs -->
+          <div class="classic-tabs">
+            <!-- Nav tabs -->        
+          </div>
+          <!-- Classic tabs -->
+        </div></div>
+  </div>
+  </div>
+    <div id="d3-setup-bar"></div>
+
+    
+  
+  <!-- Create a div where the graph will take place -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-7">
+          <div class="card border-dark mb-3" style="max-width: 700px;">
+              <div class="card-header">         <h2>Firms that Received Highest Funding <span style="font-size: 18px;">(at a given time) </span>($)</h2>
+              </div>
+              <div class="card-body text-dark">
+                  <div class="range-slider">
+                      <p style="text-decoration: underline; text-align: center; padding-right: 20px;">Number of Firms</p>
+                       <input class="range-slider__range" id = "slider" type="range" value="5" min="1" max="10">
+                      <span class="range-slider__value" id="slider-span">5</span>
+                    </div>
+                  <div id="dropdown"><label for="city-select">By City:</label>
+                    <select id="city-select">
+                        <option value="All">All</option>
+                        <option value="Bangalore">Bangalore</option>
+                        <option value="Hyderabad">Hyderabad</option>
+                        <option value="New Delhi">New Delhi</option>
+                        <option value="Mumbai">Mumbai</option>
+                        <option value="Gurgaon">Gurgaon</option>
+                    </select></div>
+                    <div id="dropdown"><label for="industry-select">By Industry:</label>
+                      <select id="industry-select">
+                          <option value="All">All</option>
+                          <option value="Consumer Internet">Consumer Internet</option>
+                          <option value="Education">Education</option>
+                          <option value="Healthcare">Healthcare</option>
+                          <option value="eCommerce">eCommerce</option>
+                          <option value="Finance">Finance</option>
+                          <option value="Others">Others</option>
+                      </select></div>
+                      <div id="dropdown"><label for="investment-type-select">By Funding Type:</label>
+                        <select id="investment-type-select">
+                            <option value="All">All</option>
+                            <option value="Seed Funding">Seed Funding</option>
+                            <option value="Private Equity">Private Equity</option>
+                            <option value="Crowd Funding">Crowd Funding</option>
+                            <option value="Debt Funding">Debt Funding</option>
+                        </select></div>
+                  <button class="btn btn-success bg-success" id="filter">Filter</button>
+                  <div id="my_dataviz"></div>
+              </div>
+            </div>
+      </div>
+      <div class="col-2"></div>
+    </div>
+  </div>
+  
+  <script src="bar_chart.js">
+    
+  </script>
+      <script src="circle_pack.js"></script>
+
+</body>
+
+</html>

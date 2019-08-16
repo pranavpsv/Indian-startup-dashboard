@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+	<title>Circle packing layout</title>
+</head>
+
+<style>
+	body {
+		font-family: "Helvetica Neue", Helvetica, sans-serif;
+		font-size: 9px;
+	}
+
+	circle {
+		fill: black;
+		opacity: 0.15;
+	}
+
+	text {
+		fill: white;
+		text-anchor: middle;
+	}
+</style>
+
+<body>
+
+	<svg width="820" height="820">
+		<g class="wrapper" transform="translate(10, 10)">
+		</g>
+	</svg>
+
+	<script src="//d3js.org/d3.v4.min.js"></script>
+	<script>
+
+
+var packLayout = d3.pack()
+	.size([800, 800]);
+
+function arcSVG(mx0, my0, r, larc, sweep, mx1, my1) {
+  return 'M'+mx0+','+my0+' A'+r+','+r+' 0 '+larc+','+sweep+' '+mx1+','+my1;
+}
+
+function make(root) {
+	var nodes = root.descendants();
+
+	var u = d3.select('.wrapper')
+		.selectAll('g.node')
+		.data(nodes);
+
+	var nodes = u.enter()
+		.append('g')
+		.classed('node', true)
+		.attr('transform', function(d) {
+			return 'translate(' + d.y + ',' + d.x + ')';
+		});
+
+	nodes.append('circle')
+		.attr('r', function(d) {
+			return d.r;
+		});
+
+	nodes.each(function(d, i) {
+		var g = d3.select(this);
+
+		var label = d.depth === 0 ? '' : d.depth === 3 ? d.data.StartupName : d.data.key;
+
+		if(d.depth === 3) {
+			g.append('text')
+				.style('font-size', d3.min([3 * d.r / label.length, 16]))
+				.attr('dy', '0.3em')
+				.text(label);
+		} else if(d.depth > 0) {
+			var r = d.r - 10;
+			g.append('path')			
+        .attr('d', arcSVG(-r, 0, r, 1, 1, r, 0))
+        .attr('id', 'label-path-' + i)
+        .style('fill', 'none')
+        .style('stroke', 'none');
+
+       g.append('text')
+       	.append('textPath')
+        .attr('xlink:href', '#label-path-' + i)
+        .attr('startOffset', '50%')
+        .style('font-size', '10px')
+        .style('fill', 'white')
+        .text(d.data.key);
+		}
+	});
+}
+
+
+function ready(err, data) {
+	var nest = d3.nest()
+	  .key(function(d) { return d.Industry; })
+	  .key(function(d) { return d['IndustryVertical']; })
+	  .entries(data);
+
+	nest = {
+		key: 'root',
+		values: nest
+	};
+
+	var root = d3.hierarchy(nest, function(d) {
+		return d.values;
+	}).sum(function(d) {
+		return d['value'] === undefined ? null : d['value'];
+    });
+    console.log(root);
+
+	packLayout(root);
+	make(root);
+}
+
+
+d3.json('circle_pack.json', ready);
+	</script>
+</body>
+</html>
