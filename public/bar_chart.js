@@ -213,37 +213,7 @@ async function draw() {
                     .ease(d3.easeLinear)
                     .attr("y", d => y(d.AmountInUSD))
                     .attr("height", d => height - y(d.AmountInUSD));
-
             });
-        // d3.select("#city-select")
-        //     .on("input", function (d) {
-        //         var selected = d3.select("#city-select").node().value;
-        //         dataset = selected === "All" ? data : g1.datafilter(data, {"CityLocation": selected});
-        //         dataset = filter(dataset);
-        //         colorScale.domain([0, d3.max(dataset.map(d => Number(d.AmountInUSD)))]);
-        //         y.domain([0, d3.max(dataset.map(d => Number(d.AmountInUSD)))]);
-        //         x.domain(dataset.map(d => d.StartupName));
-        //         var t = d3.transition()
-        //         .duration(750)
-        //         svg1.select(".yaxis")
-        //             .transition(t)
-        //             .call(d3.axisLeft(y))
-        //         svg1.select(".xaxis")
-        //             .transition(t)
-        //             .attr("transform", "translate(0," + height + ")")
-        //             .call(d3.axisBottom(x))
-        //             .selectAll("text")
-        //             .attr("font-size", fontSize);
-
-        //         d3.selectAll("rect")
-        //             .data(dataset)
-        //             .transition()
-        //             .delay((d, i) => i / dataset.length * 1000)
-        //             .duration(600)
-        //             .ease(d3.easeLinear)
-        //             .attr("y", d => y(d.AmountInUSD))
-        //             .attr("height", d => height - y(d.AmountInUSD));
-        //     })
     }).catch(err => err);
 };
 draw();
