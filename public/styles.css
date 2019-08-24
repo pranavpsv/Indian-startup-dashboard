@@ -1,6 +1,12 @@
 
 html body {
-  background: white;
+  /* background: #ededed; */
+  background: #74ebd5;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #ACB6E5, #74ebd5);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #ACB6E5, #74ebd5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  
+  /* font-family: 'Raleway', sans-serif; */
+  
 }
 
 body h2 {
@@ -209,6 +215,115 @@ div.container-fluid {
   border-color: black;
 }
 
+
+
+.pie {
+  margin: 20px;
+}
+
+.pie text {
+  font-family: "Verdana";
+  fill: #888;
+}
+
+.pie .name-text{
+  font-size: 1em;
+}
+
+.pie .value-text{
+  font-size: 2em;
+}
+
+.filters {
+  padding: 0 150px;
+}
+
+div.row {
+  margin-bottom: 20px;
+}
+div.card {
+  border-radius: 15px;
+}
+
+p.card-text {
+  text-align: center;
+}
+
+.cards {
+  display: block;
+  position: relative;
+  width: 400px;
+  height: 500px;
+  background-color: #f2f8f9;
+  text-align: center;
+  z-index: 0;
+  overflow: hidden;
+}
+.cards:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -16px;
+  right: -16px;
+  background: #343a40 /* #343a40 darkgrey #00838d*/;
+  height: 32px;
+  width: 32px;
+  border-radius: 32px;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+  -webkit-transform-origin: 50% 50%;
+          transform-origin: 50% 50%;
+  transition: -webkit-transform 0.25s ease-out;
+  transition: transform 0.25s ease-out;
+  transition: transform 0.25s ease-out, -webkit-transform 0.25s ease-out;
+}
+.cards:hover:before {
+  -webkit-transform: scale(40);
+          transform: scale(40);
+}
+
+.cards:hover p {
+  transition: all 0.3s ease-out;
+  color: white;
+}
+.cards:hover h5 {
+  transition: all 0.3s ease-out;
+  color: #ffffff;
+}
+
+rect {
+  cursor: pointer;
+}
+
+div.card-title {
+  padding-top: 20px;
+}
+i {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  
+}
+.down {
+
+  border-right-width: 5px;
+  border-bottom-width: 5px;
+  
+}
+.cards:hover .down {
+  border-color: white;
+
+
+}
+
+.down:hover { 
+  cursor: pointer;
+}
+
 div#dropdown {
+  display: inline;
+}
+div.filters {
   margin: 0;
 }

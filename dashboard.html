@@ -103,30 +103,29 @@
             </div>
             <div class="filters">
               <div id="dropdown" class="city-filter"><label for="city-select">By City:</label>
-                <select id="city-select" name="state">
+                <select id="city-select" name="state" class="filter-data">
                   <option value="All">All</option>
                   <option v-for="city in cities" :value="city">{{city}}</option>
                 </select></div>
               <div id="dropdown" class="industry-filter"><label for="industry-select">By Industry:</label>
-                <select id="industry-select">
+                <select id="industry-select" class="filter-data">
                   <option value="All">All</option>
                   <option v-for="industry in industries" :value="industry">{{industry}}</option>
                 </select></div>
               <div id="dropdown" class="funding-type-filter"><label for="investment-type-select">By Funding
                   Type:</label>
-                <select id="investment-type-select">
+                <select id="investment-type-select" class="filter-data">
                   <option value="All">All</option>
                   <option v-for="fundingType in fundingTypes" :value="fundingType" v-if="fundingType != ''">
                     {{fundingType}}</option> -->
                 </select></div>
               <div id="dropdown"><label for="year-select">By Year:</label>
-                <select id="year-select">
+                <select id="year-select" class="filter-data">
                   <option value="All">All</option>
                   <option value="2017">2017</option>
                   <option value="2016">2016</option>
                   <option value="2015">2015</option>
                 </select></div>
-              <button class="btn btn-success bg-success" id="filter" style="margin: auto;">Filter</button>
             </div>
             <div id="bar"></div>
           </div>

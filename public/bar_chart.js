@@ -3,13 +3,29 @@ var output = document.getElementById("slider-span");
 var sliderValue = 5;
 var dataset;
 var svg1;
+var programmedChange = false;
 // Update the current slider value (each time you drag the slider handle)
-slider.oninput = async function () {
+slider.onchange = function () {
     output.innerHTML = this.value;
-    sliderValue = await this.value;
+    sliderValue =  this.value;
     d3.select(".barChart").remove();
+    if (sliderValue == 0) {
+        d3.select("#bar")
+            .append("text")
+            .text("Sorry, No results for that search. Adjust the Slider.")
+            .attr("class", "h3")
+            .attr("id", "no-results")
+            .fill("black");
+    } else {
+        d3.select("#no-results").remove();
+         draw();
+    }
     $('select').val("All");
-    draw();
+    citySelect.set("All");
+    industrySelect.set("All");
+    yearSelect.set("All");
+    investmentTypeSelect.set("All");
+
 }
 
 function drawBars(svg1, dataset) {
@@ -57,7 +73,11 @@ function dataFilter(data, config) {
     });
     const filterKeys = Object.keys(filteredConfig);
     filterKeys.forEach(key => {
+        if (key != "year") {
         data = data.filter(datum => datum[key] === filteredConfig[key]);
+        } else {
+            data = data.filter(datum => datum.Date.includes(filteredConfig[key]));
+        }
     });
     return data;
 }
@@ -80,18 +100,18 @@ function filterTopK(dataset) {
 
 // append the svg object to the body of the page
 
-async function draw() {
+function draw() {
     // append the svg object to the body of the page
     var margin = {
             top: 60,
             right: 30,
             bottom: 70,
-            left: 100
+            left: 150
         },
-        width = 700 - margin.left - margin.right,
-        height = 550 - margin.top - margin.bottom;
+        width = 600 - margin.left - margin.right,
+        height = 450 - margin.top - margin.bottom;
 
-    svg1 = d3.select("#my_dataviz")
+    svg1 = d3.select("#bar")
         .append("svg")
         .attr("class", "barChart")
         .attr("width", width + margin.left + margin.right)
@@ -101,7 +121,7 @@ async function draw() {
             "translate(" + margin.left + "," + margin.top + ")");
     // Parse the Data
 
-    d3.csv("/bar_chart_filters_data.csv").then(function (data) {
+    d3.csv("/bar_chart_filters_data.csv").then(async function (data) {
         dataset = data;
         // sort data
         dataset = filterTopK(dataset);
@@ -129,7 +149,7 @@ async function draw() {
             .call(d3.axisBottom(x))
             .attr("class", "xaxis")
             .selectAll("text")
-            .style("font-size", fontSize);
+            .attr("font-size", fontSize);
         // Add Y axis
         var y = d3.scaleLinear()
             .domain([0, d3.max(dataset.map(d => Number(d.AmountInUSD)))])
@@ -170,8 +190,16 @@ async function draw() {
                 tooltip.transition()
                     .duration(500)
                     .style("opacity", 0);
+            })
+            .on("click", function (d, i) {
+                var currRect = d3.select(this);
+                console.log(d);
+                var currRectFill = currRect.attr("fill");
+                currRect.attr("fill", "black");
+                setTimeout(function (d) {
+                    currRect.attr("fill", currRectFill);
+                }, 125);
             });
-
         d3.select("#slider")
             .on("input", function (d) {
                 output.innerHTML = this.value;
@@ -179,12 +207,13 @@ async function draw() {
                 sliderValue = this.value;
 
             });
-        d3.select("#filter")
-            .on("click", (d) => {
+        d3.selectAll(".filter-data")
+            .on("change", (d) => {
                 var config = {
                     CityLocation: d3.select("#city-select").node().value,
                     IndustryVertical: d3.select("#industry-select").node().value,
-                    InvestmentType: d3.select("#investment-type-select").node().value
+                    InvestmentType: d3.select("#investment-type-select").node().value,
+                    year: d3.select("#year-select").node().value
                 }
 
                 dataset = dataFilter(data, config);
@@ -203,10 +232,24 @@ async function draw() {
                     .attr("transform", "translate(0," + height + ")")
                     .call(d3.axisBottom(x))
                     .selectAll("text")
-                    .attr("font-size", fontSize);
-
+                    .style("font-size", fontSize);
+                if (dataset.length < Number($("#slider")[0].value)) {
+                    programmedChange = true;
+                    // Programmatic change of slider value
+                    $("#slider").val(dataset.length).change();
+                }
+                // Hacky way of updating bar chart when there are less number of bars to appear in the chart.
+                if (programmedChange) {
+                    setTimeout(() => {
+                        $("#filter").trigger("click")
+                        programmedChange = false;
+                    }, 10);
+                }
                 d3.selectAll("rect")
                     .data(dataset)
+                    .attr("fill", function (d) {
+                        return colorScale(d.AmountInUSD)
+                    })
                     .transition()
                     .delay((d, i) => i / dataset.length * 1000)
                     .duration(600)
